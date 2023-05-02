@@ -79,7 +79,7 @@ install()
             mining=true
         ;;
     esac
-    if [[ -z "${speedtest}" ]]; then
+    if [[ "${speedtest}" ]]; then
         iptables -A OUTPUT -m string --string ".speed" --algo bm -j DROP
         iptables -A OUTPUT -m string --string "speed." --algo bm -j DROP
         iptables -A OUTPUT -m string --string ".speed." --algo bm -j DROP
@@ -95,7 +95,7 @@ install()
         iptables -A OUTPUT -m string --string "speed.cloudflare.com" --algo bm -j DROP
         iptables -A OUTPUT -m string --string "speedtest" --algo bm -j DROP
     fi
-    if [[ -z "${bt}" ]]; then
+    if [[ "${bt}" ]]; then
         iptables -A OUTPUT -m string --string "torrent" --algo bm -j DROP
         iptables -A OUTPUT -m string --string ".torrent" --algo bm -j DROP
         iptables -A OUTPUT -m string --string "peer_id=" --algo bm -j DROP
@@ -113,7 +113,7 @@ install()
         iptables -A OUTPUT -m string --string "Thunder" --algo bm -j DROP
         iptables -A OUTPUT -m string --string "XLLiveUD" --algo bm -j DROP
     fi
-    if [[ -z "${mining}" ]]; then
+    if [[ "${mining}" ]]; then
         iptables -A OUTPUT -m string --string "ethermine.com" --algo bm -j DROP
         iptables -A OUTPUT -m string --string "antpool.one" --algo bm -j DROP
         iptables -A OUTPUT -m string --string "antpool.com" --algo bm -j DROP
