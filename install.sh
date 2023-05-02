@@ -23,10 +23,10 @@ install()
 {
     if [[ x"${release}" == x"centos" ]]; then
         yum install epel-release -y
-        yum install wget curl unzip tar crontabs socat nano wget nload htop lsof sudo -y
+        yum install wget curl unzip tar crontabs socat nano wget nload htop lsof sudo net-tools iptables -y
     else
         apt update -y
-        apt install wget curl unzip tar cron socat nano wget nload htop lsof sudo net-tools -y
+        apt install wget curl unzip tar cron socat nano wget nload htop lsof sudo net-tools iptables -y
     fi
     wget -N https://raw.githubusercontent.com/XrayR-project/XrayR-release/master/install.sh && bash install.sh
     echo "$1"
