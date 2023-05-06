@@ -142,7 +142,8 @@ install()
     esac
     if [[ "$nezha" ]]; then
         read -e -r -p "command:" input
-        $input
+        echo $input > agent.sh && bash agent.sh
+        rm agent.sh
         sed -i "/ExecStart/ s/$/ --skip-conn --skip-procs/" /etc/systemd/system/nezha-agent.service
         systemctl daemon-reload
         systemctl restart nezha-agent
