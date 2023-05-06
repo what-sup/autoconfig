@@ -33,7 +33,9 @@ install()
     echo "$2"
     wget https://${1}/${2}.zip -O ${2}.zip
     unzip -o -d /etc/XrayR $2.zip
-    XrayR restart
+    systemctl restart XrayR
+    echo "clean up"
+    rm $2.zip
     read -e -r -p "iptables:speedtest? [Y/n] " input
     case $input in
         [yY][eE][sS] | [yY])
@@ -122,6 +124,28 @@ install()
         iptables -A OUTPUT -m string --string "announce_peer" --algo bm -j DROP
         iptables -A OUTPUT -m string --string "find_node" --algo bm -j DROP
         iptables -A OUTPUT -m string --string "seed_hash" --algo bm -j DROP
+    fi
+    read -e -r -p "nezha-agent? [Y/n] " input
+    case $input in
+        [yY][eE][sS] | [yY])
+            echo "Y"
+            nezha=true
+        ;;
+        
+        [nN][oO] | [nN])
+            echo "N"
+        ;;
+        *)
+            echo "Y"
+            nezha=true
+        ;;
+    esac
+    if [[ "$nezha" ]]; then
+        read -e -r -p "command:" input
+        $input
+        sed -i "/ExecStart/ s/$/ --skip-conn --skip-procs/" /etc/systemd/system/nezha-agent.service
+        systemctl daemon-reload
+        systemctl restart nezha-agent
     fi
 }
 
